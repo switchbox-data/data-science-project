@@ -81,7 +81,10 @@ aws:
   default: "y"
 
 # Computed variables
-python: "{{ 'y' if (python_data_science == 'y' or python_package == 'y') else 'n' }}"
+python:
+  type: str
+  default: "{{ 'y' if (python_data_science == 'y' or python_package == 'y') else 'n' }}"
+  when: false
 
 # Post-generation tasks
 _tasks:
