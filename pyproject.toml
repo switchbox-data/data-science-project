@@ -1,0 +1,49 @@
+[project]
+name = "switchbox-copier-template"
+version = "0.1.0"
+description = "Copier template for Switchbox projects (Python with optional data science and package publishing tools)."
+authors = [{ name = "Switchbox", email = "hello@switch.box" }]
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/switchbox-data/switchbox-copier-template"
+
+[dependency-groups]
+dev = [
+  "pytest>=7.2.0",
+  "pytest-cov>=4.0.0",
+  "copier>=9.0.0",
+  "pre-commit>=3.5.0",
+  "ruff>=0.11.5",
+  "mkdocs>=1.6.0",
+  "mkdocs-material>=9.5.0",
+  "mkdocstrings[python]>=0.26.1",
+  "tox-uv>=1.11.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = ["E","W","F","B","I","UP","SIM","C4","RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/switchbox_copier_template"]

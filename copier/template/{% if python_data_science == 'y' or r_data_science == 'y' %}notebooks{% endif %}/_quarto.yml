@@ -1,0 +1,29 @@
+project:
+  type: website
+  title: "{{ project_name }}"
+  render:
+    - md_example.qmd
+    - index.qmd{% if python_data_science == 'y' %}
+    - py_example.qmd{% endif %}{% if r_data_science == 'y' %}
+    - r_example.qmd{% endif %}
+
+website:
+  title: "{{ project_name }}"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: md_example.qmd
+        text: Markdown Example{% if python_data_science == 'y' %}
+      - href: py_example.qmd
+        text: Python Example{% endif %}{% if r_data_science == 'y' %}
+      - href: r_example.qmd
+        text: R Example{% endif %}
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+
+execute:
+  freeze: auto

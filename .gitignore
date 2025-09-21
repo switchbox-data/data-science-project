@@ -1,0 +1,11 @@
+.venv/
+.uv/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+__pycache__/
+site/
+dist/
+build/
+.DS_Store
+tmp/

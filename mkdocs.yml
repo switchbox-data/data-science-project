@@ -1,0 +1,11 @@
+site_name: Switchbox Copier Template
+site_description: Standalone Copier template for Switchbox projects
+repo_url: https://github.com/switchbox-data/switchbox-copier-template
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - Options: options.md
+plugins:
+  - search

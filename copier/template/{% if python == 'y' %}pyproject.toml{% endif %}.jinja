@@ -1,0 +1,89 @@
+[project]
+name = "{{ project_name }}"
+version = "0.0.1"
+description = "{{ project_description }}"
+authors = [{ name = "{{ author }}", email = "{{ email }}" }]
+readme = "README.md"
+keywords = ['python']
+requires-python = ">=3.9,<4.0"
+dependencies = [
+{% if python_data_science == 'y' %}    "polars>=1.32.3",
+    "pyarrow>=21.0.0",
+    "seaborn>=0.13.2",
+    "numpy>=2.0.2",
+    "ipykernel>=6.30.1",
+    "nbformat>=5.10.4",
+    "nbclient>=0.10.2",
+{% endif %}{% if aws == 'y' %}    "boto3>=1.7.84",
+{% endif %}]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Repository = "https://github.com/{{ author_github_handle }}/{{ project_name }}"
+{% if python_package == 'y' %}Documentation = "https://{{ author_github_handle }}.github.io/{{ project_name }}/"
+{% endif %}
+
+[dependency-groups]
+dev = [
+    "pytest>=7.2.0",
+    "pytest-cov>=4.0.0",
+    "pre-commit>=3.5.0",
+    "ruff>=0.11.5",
+{% if type_checker == 'mypy' %}    "mypy>=1.8.0",
+{% endif %}{% if type_checker == 'ty' %}    "ty>=0.0.1a16",
+{% endif %}    "deptry>=0.20.0",
+{% if python_package == 'y' %}    "mkdocs>=1.6.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings[python]>=0.26.1",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+{% endif %}]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["{{ project_slug }}"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = ["E","W","F","B","I","UP","SIM","C4","RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+{% if type_checker == 'ty' %}[tool.ty.environment]
+python = "./.venv"
+python-version = "3.13"
+{% endif %}{% if type_checker == 'mypy' %}
+[tool.mypy]
+files = [
+    "{{ project_slug }}"
+]
+disallow_untyped_defs = true
+disallow_any_unimported = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+show_error_codes = true
+{% endif %}

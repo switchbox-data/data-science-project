@@ -1,0 +1,93 @@
+_min_copier_version: "9.0.0"
+_answers_file: .copier-answers.yml
+_subdirectory: template
+_exclude:
+  - ".copierignore"
+_templates_suffix: .jinja
+
+author:
+  type: str
+  default: "Florian Maas"
+  help: Your full name
+
+email:
+  type: str
+  default: "fpgmaas@gmail.com"
+  help: Your email address
+
+author_github_handle:
+  type: str
+  default: "fpgmaas"
+  help: Your GitHub handle (without @)
+
+project_name:
+  type: str
+  default: "example-project"
+  help: Project name (also used for repo name)
+
+project_slug:
+  type: str
+  default: "[[ project_name|lower|replace('-', '_') ]]"
+  help: Importable Python package name
+
+project_description:
+  type: str
+  default: "This is a template repository for Python projects that use uv for their dependency management."
+
+type_checker:
+  type: str
+  choices: ["mypy", "ty"]
+  default: "ty"
+  when: "{{ python == 'y' }}"
+
+python_data_science:
+  type: str
+  choices: ["y", "n"]
+  default: "y"
+  help: "Include Python data science tools (polars, pyarrow, seaborn, numpy, quarto, notebooks) - At least one of: python_data_science, python_package, or r_data_science must be selected"
+
+python_package:
+  type: str
+  choices: ["y", "n"]
+  default: "y"
+  help: "Include Python package publishing tools (build, twine, mkdocs documentation) - At least one of: python_data_science, python_package, or r_data_science must be selected"
+
+r_data_science:
+  type: str
+  choices: ["y", "n"]
+  default: "n"
+  help: "Include R data science tools (R, renv, Quarto, R extensions) - At least one of: python_data_science, python_package, or r_data_science must be selected"
+
+use_github:
+  type: str
+  choices: ["y", "n"]
+  default: "y"
+  help: Include GitHub Actions and issue templates
+
+open_source_license:
+  type: str
+  choices:
+    - "MIT license"
+    - "BSD license"
+    - "ISC license"
+    - "Apache Software License 2.0"
+    - "GNU General Public License v3"
+    - "Not open source"
+  default: "MIT license"
+
+aws:
+  type: str
+  choices: ["y", "n"]
+  default: "y"
+
+# Computed variables
+python: "{{ 'y' if (python_data_science == 'y' or python_package == 'y') else 'n' }}"
+
+# Post-generation tasks
+_tasks:
+  - command: git init
+    description: "🔧 Initialize git repository"
+  - command: git add .
+    description: "📁 Add all files to git staging"
+  - command: git commit -m "🎉 Initial commit from copier template"
+    description: "💾 Create initial commit"

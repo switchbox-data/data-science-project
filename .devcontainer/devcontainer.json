@@ -1,0 +1,23 @@
+{
+  "name": "Switchbox Copier Template",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.13-bookworm",
+  "features": {
+    "ghcr.io/guiyomh/features/just:0.1.0": { "version": "1.42.4" }
+  },
+  "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "tamasfe.even-better-toml",
+        "charliermarsh.ruff",
+        "nefrob.vscode-just-syntax"
+      ],
+      "settings": {
+        "python.testing.pytestArgs": ["tests"],
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestEnabled": true
+      }
+    }
+  }
+}

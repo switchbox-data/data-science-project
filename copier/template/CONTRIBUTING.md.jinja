@@ -1,0 +1,61 @@
+# Contributing to {{ project_name }}
+
+Thank you for your interest in contributing to {{ project_name }}!
+
+## Development Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/{{ author_github_handle }}/{{ project_name }}.git
+   cd {{ project_name }}
+   ```
+
+2. Set up the development environment:
+   ```bash
+   just setup
+   ```
+
+## Development Workflow
+
+1. Run tests:
+   ```bash
+   just test
+   ```
+
+2. Run linting:
+   ```bash
+   just lint
+   ```
+
+3. Format code:
+   ```bash
+   just format
+   ```
+
+{% if python_package == 'y' %}4. Build documentation:
+   ```bash
+   just docs
+   ```
+
+5. Serve documentation locally:
+   ```bash
+   just docs-serve
+   ```
+{% endif %}
+
+## Submitting Changes
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
+
+## Code Style
+
+- We use [Ruff](https://github.com/astral-sh/ruff) for Python code formatting and linting
+- Maximum line length is 120 characters
+{% if type_checker == 'mypy' %}- Type hints are required for all public functions
+{% endif %}
+
+Thank you for contributing!
