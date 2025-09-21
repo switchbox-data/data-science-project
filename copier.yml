@@ -27,8 +27,8 @@ project_name:
 
 project_slug:
   type: str
-  default: "[[ project_name|lower|replace('-', '_') ]]"
-  help: Importable Python package name
+  default: "{{ project_name|lower|replace('-', '_') }}"
+  when: false
 
 project_description:
   type: str
@@ -40,23 +40,15 @@ type_checker:
   default: "ty"
   when: "{{ python == 'y' }}"
 
-python_data_science:
+project_features:
   type: str
-  choices: ["y", "n"]
-  default: "y"
-  help: "Include Python data science tools (polars, pyarrow, seaborn, numpy, quarto, notebooks) - At least one of: python_data_science, python_package, or r_data_science must be selected"
-
-python_package:
-  type: str
-  choices: ["y", "n"]
-  default: "y"
-  help: "Include Python package publishing tools (build, twine, mkdocs documentation) - At least one of: python_data_science, python_package, or r_data_science must be selected"
-
-r_data_science:
-  type: str
-  choices: ["y", "n"]
-  default: "n"
-  help: "Include R data science tools (R, renv, Quarto, R extensions) - At least one of: python_data_science, python_package, or r_data_science must be selected"
+  multiselect: true
+  choices:
+    - python_data_science
+    - python_package
+    - r_data_science
+  default: [python_data_science, python_package]
+  help: "Select project features (use space to select/deselect, enter to confirm)"
 
 use_github:
   type: str
@@ -83,7 +75,23 @@ aws:
 # Computed variables
 python:
   type: str
-  default: "{{ 'y' if (python_data_science == 'y' or python_package == 'y') else 'n' }}"
+  default: "{{ 'y' if ('python_data_science' in project_features or 'python_package' in project_features) else 'n' }}"
+  when: false
+
+# Backward compatibility computed variables
+python_data_science:
+  type: str
+  default: "{{ 'y' if 'python_data_science' in project_features else 'n' }}"
+  when: false
+
+python_package:
+  type: str
+  default: "{{ 'y' if 'python_package' in project_features else 'n' }}"
+  when: false
+
+r_data_science:
+  type: str
+  default: "{{ 'y' if 'r_data_science' in project_features else 'n' }}"
   when: false
 
 # Post-generation tasks
