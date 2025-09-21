@@ -21,6 +21,6 @@ uvx copier copy --defaults --force --trust \
   --data use_github="y" \
   --data open_source_license="MIT license" \
   --data aws="n" \
-  "$TEMPLATE_DIR/copier" "$OUT_DIR"
+  "$TEMPLATE_DIR" "$OUT_DIR"
 
 echo "Generated at: $OUT_DIR"

@@ -31,7 +31,7 @@ def assert_missing(base: Path, *paths: str) -> None:
 def test_python_data_science(tmp_path: Path) -> None:
     dest = tmp_path / "py"
     res = run_copier(
-        Path(__file__).parents[1] / "copier",
+        Path(__file__).parents[1],
         dest,
         {
             "author": "Switchbox",
@@ -66,7 +66,7 @@ def test_python_data_science(tmp_path: Path) -> None:
 def test_python_minimal(tmp_path: Path) -> None:
     dest = tmp_path / "minimal"
     res = run_copier(
-        Path(__file__).parents[1] / "copier",
+        Path(__file__).parents[1],
         dest,
         {
             "author": "Switchbox",
@@ -100,7 +100,7 @@ def test_python_minimal(tmp_path: Path) -> None:
 def test_no_python_features(tmp_path: Path) -> None:
     dest = tmp_path / "no-python"
     res = run_copier(
-        Path(__file__).parents[1] / "copier",
+        Path(__file__).parents[1],
         dest,
         {
             "author": "Switchbox",
@@ -126,7 +126,7 @@ def test_no_python_features(tmp_path: Path) -> None:
 def test_python_mkdocs_only(tmp_path: Path) -> None:
     dest = tmp_path / "docs"
     res = run_copier(
-        Path(__file__).parents[1] / "copier",
+        Path(__file__).parents[1],
         dest,
         {
             "author": "Switchbox",

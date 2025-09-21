@@ -1,0 +1,15 @@
+# Development files that shouldn't be copied to generated projects
+/tests/
+/copier-helper.sh
+/pyproject.toml
+/Justfile
+/README.md
+/LICENSE
+/.github/workflows/
+/.devcontainer/
+/.pre-commit-config.yaml
+/.gitignore
+/uv.lock
+/.pytest_cache/
+/.ruff_cache/
+/tmp/
