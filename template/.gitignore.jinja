@@ -1,4 +1,4 @@
-{% if python == 'y' %}# Python
+{% if python  %}# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -48,7 +48,7 @@ env.bak/
 venv.bak/
 
 {% endif %}
-{% if r_data_science == 'y' %}
+{% if r_data_science  %}
 # R
 .Rhistory
 .Rapp.history
@@ -96,6 +96,6 @@ ehthumbs.db
 Thumbs.db
 
 # Project specific
-{% if python_package == 'y' %}site/
-{% endif %}{% if python_data_science == 'y' %}.quarto/
+{% if python_package  %}site/
+{% endif %}{% if python_data_science  %}.quarto/
 {% endif %}tmp/

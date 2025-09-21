@@ -41,9 +41,9 @@ def test_python_data_science(tmp_path: Path) -> None:
             "project_description": "Test py",
             "type_checker": "ty",
             "project_features": "[python_data_science]",
-            "use_github": "y",
+            "use_github": True,
             "open_source_license": "MIT license",
-            "aws": "y",
+            "aws": True,
         },
     )
     assert res.returncode == 0, res.stderr
@@ -73,9 +73,9 @@ def test_python_minimal(tmp_path: Path) -> None:
             "project_name": "minimal-proj",
             "project_description": "Minimal Python project",
             "project_features": "[python_data_science]",
-            "use_github": "n",
+            "use_github": False,
             "open_source_license": "MIT license",
-            "aws": "n",
+            "aws": False,
         },
     )
     assert res.returncode == 0, res.stderr
@@ -105,9 +105,9 @@ def test_no_python_features(tmp_path: Path) -> None:
             "project_name": "no-python-proj",
             "project_description": "Project with no Python features",
             "project_features": "[]",
-            "use_github": "y",
+            "use_github": True,
             "open_source_license": "MIT license",
-            "aws": "n",
+            "aws": False,
         },
     )
     assert res.returncode == 0, res.stderr
@@ -130,9 +130,9 @@ def test_python_mkdocs_only(tmp_path: Path) -> None:
             "project_description": "Docs only",
             "type_checker": "mypy",
             "project_features": "[python_package]",
-            "use_github": "y",
+            "use_github": True,
             "open_source_license": "MIT license",
-            "aws": "n",
+            "aws": False,
         },
     )
     assert res.returncode == 0, res.stderr

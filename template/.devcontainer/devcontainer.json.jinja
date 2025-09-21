@@ -2,8 +2,8 @@
   "name": "{{ project_name }}",
   "image": "mcr.microsoft.com/devcontainers/ubuntu:jammy",
   "features": {
-    "ghcr.io/guiyomh/features/just:0.1.0": { "version": "1.42.4" }{% if python == 'y' %},
-    "ghcr.io/devcontainers/features/python:1": { "version": "3.13" }{% endif %}{% if r_data_science == 'y' %},
+    "ghcr.io/guiyomh/features/just:0.1.0": { "version": "1.42.4" }{% if python  %},
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.13" }{% endif %}{% if r_data_science  %},
     "ghcr.io/rocker-org/devcontainer-features/r-rig:1": {
       "version": "4.4.3",
       "installREnv": true,
@@ -11,21 +11,21 @@
       "vscodeRSupport": true,
       "installVscDebugger": true,
       "installRadian": true
-    }{% endif %}{% if python_data_science == 'y' or r_data_science == 'y' %},
+    }{% endif %}{% if python_data_science  or r_data_science  %},
     "ghcr.io/rocker-org/devcontainer-features/quarto-cli:1": {
       "version": "1.7.33",
       "installChromium": true
     },
     "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
       "packages": "chromium python3-tk"
-    }{% endif %}{% if aws == 'y' %},
+    }{% endif %}{% if aws  %},
     "ghcr.io/devcontainers/features/aws-cli:1": {
       "version": "2.27.4"
     }{% endif %}
-  },{% if python_data_science == 'y' %}
+  },{% if python_data_science  %}
   "containerEnv": {
     "QUARTO_PYTHON": "/workspaces/{{ project_name }}/.venv/bin/python"
-  },{% endif %}{% if aws == 'y' %}
+  },{% endif %}{% if aws  %}
   "initializeCommand": "mkdir -p ${localEnv:HOME}/.aws",
   "mounts": [
     "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached"
@@ -38,18 +38,18 @@
     "vscode": {
       "extensions": [
         "tamasfe.even-better-toml",
-        "nefrob.vscode-just-syntax"{% if python == 'y' %},
+        "nefrob.vscode-just-syntax"{% if python  %},
         "ms-python.python",
         "charliermarsh.ruff"{% if type_checker == 'ty' %},
-        "astral-sh.ty"{% endif %}{% endif %}{% if r_data_science == 'y' %},
+        "astral-sh.ty"{% endif %}{% endif %}{% if r_data_science  %},
         "REditorSupport.r",
         "RDebugger.r-debugger",
         "Posit.air-vscode",
-        "tombi.tombi"{% endif %}{% if python_data_science == 'y' or r_data_science == 'y' %},
+        "tombi.tombi"{% endif %}{% if python_data_science  or r_data_science  %},
         "quarto.quarto"{% endif %}
-      ]{% if python == 'y' or r_data_science == 'y' %},
+      ]{% if python  or r_data_science  %},
       "settings": {
-{% if python == 'y' %}        "python.defaultInterpreterPath": "/workspaces/{{ project_name }}/.venv/bin/python",
+{% if python  %}        "python.defaultInterpreterPath": "/workspaces/{{ project_name }}/.venv/bin/python",
         "python.testing.pytestArgs": ["tests"],
         "python.testing.pytestPath": "/workspaces/{{ project_name }}/.venv/bin/pytest",
         "python.testing.unittestEnabled": false,
@@ -62,8 +62,8 @@
             "source.fixAll": "explicit",
             "source.organizeImports": "explicit"
           }
-        }{% if r_data_science == 'y' %},{% endif %}
-{% endif %}{% if r_data_science == 'y' %}        "r.bracketedPaste": true,
+        }{% if r_data_science  %},{% endif %}
+{% endif %}{% if r_data_science  %}        "r.bracketedPaste": true,
         "r.plot.useHttpgd": true,
         "r.rterm.linux": "/usr/local/bin/radian",
         "r.rterm.option": ["--no-save", "--no-restore"],

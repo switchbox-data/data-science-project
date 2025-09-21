@@ -7,17 +7,17 @@ _templates_suffix: .jinja
 
 author:
   type: str
-  default: "Florian Maas"
+  default: "Switchbox"
   help: Your full name
 
 email:
   type: str
-  default: "fpgmaas@gmail.com"
+  default: "hello@switch.box"
   help: Your email address
 
 author_github_handle:
   type: str
-  default: "fpgmaas"
+  default: "switchbox-data"
   help: Your GitHub handle (without @)
 
 project_name:
@@ -32,13 +32,13 @@ project_slug:
 
 project_description:
   type: str
-  default: "This is a template repository for Python projects that use uv for their dependency management."
+  default: "This is a repository for modern data science projects."
 
 type_checker:
   type: str
   choices: ["mypy", "ty"]
   default: "ty"
-  when: "{{ python == 'y' }}"
+  when: "{{ python }}"
 
 project_features:
   type: str
@@ -51,9 +51,8 @@ project_features:
   help: "Select project features (use space to select/deselect, enter to confirm)"
 
 use_github:
-  type: str
-  choices: ["y", "n"]
-  default: "y"
+  type: bool
+  default: true
   help: Include GitHub Actions and issue templates
 
 open_source_license:
@@ -68,30 +67,29 @@ open_source_license:
   default: "MIT license"
 
 aws:
-  type: str
-  choices: ["y", "n"]
-  default: "y"
+  type: bool
+  default: true
 
 # Computed variables
 python:
-  type: str
-  default: "{{ 'y' if ('python_data_science' in project_features or 'python_package' in project_features) else 'n' }}"
+  type: bool
+  default: "{{ 'python_data_science' in project_features or 'python_package' in project_features }}"
   when: false
 
 # Backward compatibility computed variables
 python_data_science:
-  type: str
-  default: "{{ 'y' if 'python_data_science' in project_features else 'n' }}"
+  type: bool
+  default: "{{ 'python_data_science' in project_features }}"
   when: false
 
 python_package:
-  type: str
-  default: "{{ 'y' if 'python_package' in project_features else 'n' }}"
+  type: bool
+  default: "{{ 'python_package' in project_features }}"
   when: false
 
 r_data_science:
-  type: str
-  default: "{{ 'y' if 'r_data_science' in project_features else 'n' }}"
+  type: bool
+  default: "{{ 'r_data_science' in project_features }}"
   when: false
 
 # Post-generation tasks

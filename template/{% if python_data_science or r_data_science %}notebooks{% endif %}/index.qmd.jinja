@@ -8,7 +8,7 @@ Quarto enables you to weave together content and executable code into finished d
 
 - **Jupyter notebooks** + **Markdown** + **Publishing power**
 - Write in `.qmd` files (Quarto Markdown)
-- Execute {% if python_data_science == 'y' and r_data_science == 'y' %}Python, R, Julia, or Observable{% elif python_data_science == 'y' %}Python, Julia, or Observable{% elif r_data_science == 'y' %}R, Julia, or Observable{% else %}Julia or Observable{% endif %} code
+- Execute {% if python_data_science  and r_data_science  %}Python, R, Julia, or Observable{% elif python_data_science  %}Python, Julia, or Observable{% elif r_data_science  %}R, Julia, or Observable{% else %}Julia or Observable{% endif %} code
 - Render to HTML, PDF, Word, presentations, and more
 
 ## This Notebooks Directory
@@ -19,8 +19,8 @@ This `notebooks/` directory contains your Quarto project with these files:
 notebooks/
 ├── _quarto.yml          # Project configuration
 ├── index.qmd           # This homepage (you're here!)
-├── md_example.qmd      # Pure markdown example{% if python_data_science == 'y' %}
-├── py_example.qmd      # Python data analysis example{% endif %}{% if r_data_science == 'y' %}
+├── md_example.qmd      # Pure markdown example{% if python_data_science  %}
+├── py_example.qmd      # Python data analysis example{% endif %}{% if r_data_science  %}
 ├── r_example.qmd       # R data analysis example{% endif %}
 ├── Justfile            # Automation commands
 └── _site/              # Generated website (after rendering)
@@ -87,15 +87,15 @@ Then you write in **Markdown** with optional **code blocks**:
 
 Some text here.
 
-{% if python_data_science == 'y' and r_data_science == 'y' %}```{python}
+{% if python_data_science  and r_data_science  %}```{python}
 print("Hello from Python!")
 ```
 
 ```{r}
 print("Hello from R!")
-```{% elif python_data_science == 'y' %}```{python}
+```{% elif python_data_science  %}```{python}
 print("Hello, Quarto!")
-```{% elif r_data_science == 'y' %}```{r}
+```{% elif r_data_science  %}```{r}
 print("Hello, Quarto!")
 ```{% endif %}
 

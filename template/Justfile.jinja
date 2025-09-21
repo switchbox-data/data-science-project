@@ -7,7 +7,7 @@ default:
     @just --list
 
 
-{% if python == 'y' %}# =============================================================================
+{% if python  %}# =============================================================================
 # 🔍 CODE QUALITY & TESTING
 # =============================================================================
 # These commands check your code quality and run tests
@@ -74,11 +74,11 @@ build-and-publish: build publish
 # =============================================================================
 # These commands help you set up your development environment
 
-{% if python == 'y' %}# Install the virtual environment and install the pre-commit hooks
+{% if python  %}# Install the virtual environment and install the pre-commit hooks
 install:
     echo "🚀 Creating virtual environment using uv"
     .devcontainer/postCreateCommand.sh
 
 {% endif %}# Clean generated files and caches
 clean:
-    rm -rf{% if python == 'y' %} .pytest_cache .ruff_cache{% endif %}{% if python_package == 'y' %} site dist build{% endif %} tmp{% if python_data_science == 'y' %} notebooks/.quarto{% endif %}
+    rm -rf{% if python  %} .pytest_cache .ruff_cache{% endif %}{% if python_package  %} site dist build{% endif %} tmp{% if python_data_science  %} notebooks/.quarto{% endif %}

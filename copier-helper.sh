@@ -15,9 +15,9 @@ uvx copier copy --defaults --force --trust \
   --data project_name="example-project" \
   --data project_description="Example" \
   --data project_features="[python_data_science, python_package]" \
-  --data use_github="y" \
+  --data use_github=true \
   --data open_source_license="MIT license" \
-  --data aws="n" \
+  --data aws=false \
   "$TEMPLATE_DIR" "$OUT_DIR"
 
 echo "Generated at: $OUT_DIR"
