@@ -6,6 +6,7 @@ from pathlib import Path
 
 def run_copier(template_dir: Path, dest: Path, data: dict[str, str]) -> subprocess.CompletedProcess:
     args = [
+        "uvx",
         "copier",
         "copy",
         "--defaults",
@@ -26,6 +27,14 @@ def assert_exists(base: Path, *paths: str) -> None:
 def assert_missing(base: Path, *paths: str) -> None:
     for p in paths:
         assert not (base / p).exists(), f"Expected missing: {p}"
+
+
+def assert_file_contains(base: Path, file_path: str, expected_content: str) -> None:
+    """Assert that a file contains expected content."""
+    full_path = base / file_path
+    assert full_path.exists(), f"Expected file to exist: {file_path}"
+    content = full_path.read_text()
+    assert expected_content in content, f"Expected '{expected_content}' in {file_path}, but got: {content}"
 
 
 def test_python_data_science(tmp_path: Path) -> None:
@@ -140,3 +149,7 @@ def test_python_mkdocs_only(tmp_path: Path) -> None:
         dest, "docs", "mkdocs.yml", "pyproject.toml", "tox.ini", "docs_proj", "tests", ".github", ".devcontainer"
     )
     assert_missing(dest, "notebooks")
+    # Check that postCreateCommand.sh contains the expected Python setup commands
+    assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "curl -LsSf https://astral.sh/uv/install.sh | sh")
+    assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "uv sync --group dev")
+    assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "uv run pre-commit install --install-hooks")
