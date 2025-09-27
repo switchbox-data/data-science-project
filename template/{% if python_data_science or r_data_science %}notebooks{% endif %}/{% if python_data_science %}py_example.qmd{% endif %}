@@ -1,4 +1,4 @@
-{% if cookiecutter.pydata == "y" %}---
+{% if python_data_science %}---
 title: "Python Data Analysis Example"
 author: "{{cookiecutter.author}}"
 date: today

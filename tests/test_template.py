@@ -153,3 +153,41 @@ def test_python_mkdocs_only(tmp_path: Path) -> None:
     assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "curl -LsSf https://astral.sh/uv/install.sh | sh")
     assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "uv sync --group dev")
     assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "uv run pre-commit install --install-hooks")
+    # Check that Justfile contains documentation commands (python_package boolean bug)
+    assert_file_contains(dest, "Justfile", "# 📚 DOCUMENTATION")
+    assert_file_contains(dest, "Justfile", "docs:")
+    # Check that GitHub workflow contains docs check job (python_package boolean bug)
+    assert_file_contains(dest, ".github/workflows/main.yml", "check-docs:")
+    # Check that release workflow contains set-version job (python_package boolean bug)
+    assert_file_contains(dest, ".github/workflows/on-release-main.yml", "set-version:")
+
+
+def test_python_data_science_notebooks(tmp_path: Path) -> None:
+    dest = tmp_path / "pydata"
+    res = run_copier(
+        Path(__file__).parents[1],
+        dest,
+        {
+            "author": "Switchbox",
+            "email": "hello@switch.box",
+            "author_github_handle": "switchbox-data",
+            "project_name": "pydata-proj",
+            "project_description": "Python data science project",
+            "type_checker": "ty",
+            "project_features": "[python_data_science]",
+            "use_github": True,
+            "open_source_license": "MIT license",
+            "aws": False,
+        },
+    )
+    assert res.returncode == 0, res.stderr
+    assert_exists(
+        dest, "notebooks", "pyproject.toml", "tox.ini", "pydata_proj", "tests", ".github", ".devcontainer"
+    )
+    assert_missing(dest, "docs", "mkdocs.yml")
+    # Check that py_example.qmd contains actual content (not template condition)
+    assert_file_contains(dest, "notebooks/py_example.qmd", "title: \"Python Data Analysis Example\"")
+    assert_file_contains(dest, "notebooks/py_example.qmd", "import polars as pl")
+    # Ensure template condition is not present in final output
+    content = (dest / "notebooks/py_example.qmd").read_text()
+    assert "{% if cookiecutter.pydata == \"y\" %}" not in content, "Template condition should be resolved"

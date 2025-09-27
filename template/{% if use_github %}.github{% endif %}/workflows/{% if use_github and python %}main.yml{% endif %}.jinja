@@ -53,7 +53,7 @@ jobs:
       - name: Check typing
         run: uv run {% if type_checker == "mypy" %}mypy{% else %}ty check{% endif %}
 
-{% if python_package == "y" %}
+{% if python_package %}
   check-docs:
     runs-on: ubuntu-latest
     steps:

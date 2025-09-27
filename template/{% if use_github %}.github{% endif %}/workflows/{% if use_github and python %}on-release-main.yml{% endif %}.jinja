@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-{% if python_package == "y" %}
+{% if python_package %}
   set-version:
     runs-on: ubuntu-24.04
     steps:
