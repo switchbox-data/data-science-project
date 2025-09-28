@@ -35,10 +35,9 @@ Repository = "https://github.com/{{ author_github_handle }}/{{ project_name }}"
 [dependency-groups]
 dev = [
     "pytest>=7.2.0",
-    "pytest-cov>=4.0.0",
-    "pre-commit>=3.5.0",
     "ruff>=0.11.5",
-    "ty>=0.0.1a21",    "deptry>=0.20.0",
+    "ty>=0.0.1a21",    
+    "deptry>=0.20.0",
 {% if python_package  %}    "mkdocs>=1.6.0",
     "mkdocs-material>=9.5.0",
     "mkdocstrings[python]>=0.26.1",
