@@ -7,15 +7,19 @@ readme = "README.md"
 keywords = ['python']
 requires-python = ">=3.9,<4.0"
 dependencies = [
-{% if python_data_science  %}    "polars>=1.32.3",
+{%- if python_data_science %}
+    "polars>=1.32.3",
     "pyarrow>=21.0.0",
     "seaborn>=0.13.2",
     "numpy>=2.0.2",
     "ipykernel>=6.30.1",
     "nbformat>=5.10.4",
     "nbclient>=0.10.2",
-{% endif %}{% if aws  %}    "boto3>=1.7.84",
-{% endif %}]
+{%- endif %}
+{%- if aws %}
+    "boto3>=1.7.84",
+{%- endif %}
+]
 classifiers = [
     "Intended Audience :: Developers",
     "Programming Language :: Python",
@@ -29,8 +33,9 @@ classifiers = [
 
 [project.urls]
 Repository = "https://github.com/{{ author_github_handle }}/{{ project_name }}"
-{% if python_package  %}Documentation = "https://{{ author_github_handle }}.github.io/{{ project_name }}/"
-{% endif %}
+{%- if python_package %}
+Documentation = "https://{{ author_github_handle }}.github.io/{{ project_name }}/"
+{%- endif %}
 
 [dependency-groups]
 dev = [
@@ -38,20 +43,23 @@ dev = [
     "ruff>=0.11.5",
     "ty>=0.0.1a21",    
     "deptry>=0.20.0",
-{% if python_package  %}    "mkdocs>=1.6.0",
+{%- if python_package %}
+    "mkdocs>=1.6.0",
     "mkdocs-material>=9.5.0",
     "mkdocstrings[python]>=0.26.1",
     "build>=1.0.0",
     "twine>=4.0.0",
-{% endif %}]
+{%- endif %}
+]
 
-{% if python_package %}[build-system]
+{%- if python_package %}
+[build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["{{ project_slug }}"]
-{% endif %}
+{%- endif %}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
