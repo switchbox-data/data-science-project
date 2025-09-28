@@ -16,10 +16,8 @@ default:
 check:
     echo "🚀 Checking lock file consistency with 'pyproject.toml'"
     uv lock --locked
-    echo "🚀 Linting code: Running pre-commit"
-    uv run pre-commit run -a
-    echo "🚀 Static type checking: Running ty"
-    uv run ty check
+    echo "🚀 Linting, formatting, and type checking code"
+    prek run -a
     echo "🚀 Checking for obsolete dependencies: Running deptry"
     uv run deptry .
 
