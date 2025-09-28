@@ -12,20 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
-        uses: actions/checkout@v4
-
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/pre-commit
-          key: pre-commit-${{'{{'}} hashFiles('.pre-commit-config.yaml') {{'}}'}}
+        uses: actions/checkout@v5
 
       - name: Set up the environment
         uses: ./.github/actions/setup-python-env
 
+      - name: Install prek for pre-commit hooks
+        uses: j178/prek-action@v1
+
       - name: Run checks
         run: |
           uv lock --locked
-          uv run pre-commit run -a
+          prek run -a
           uv run {% if type_checker == "mypy" %}mypy{% else %}ty check{% endif %}
           uv run deptry .
 
