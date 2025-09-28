@@ -17,14 +17,13 @@ jobs:
       - name: Set up the environment
         uses: ./.github/actions/setup-python-env
 
-      - name: Install prek for pre-commit hooks
+      - name: Run ruff and other pre-commit hooks
         uses: j178/prek-action@v1
 
-      - name: Run checks
+      - name: Run ty and deptry
         run: |
           uv lock --locked
-          prek run -a
-          uv run {% if type_checker == "mypy" %}mypy{% else %}ty check{% endif %}
+          uv run ty check
           uv run deptry .
 
   tests-and-type-check:
@@ -49,7 +48,7 @@ jobs:
         run: uv run python -m pytest tests
 
       - name: Check typing
-        run: uv run {% if type_checker == "mypy" %}mypy{% else %}ty check{% endif %}
+        run: uv run ty check
 
 {% if python_package %}
   check-docs:

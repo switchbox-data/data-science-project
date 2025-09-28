@@ -24,12 +24,6 @@ project_description:
   type: str
   default: "This is a repository for modern data science projects."
 
-type_checker:
-  type: str
-  choices: ["mypy", "ty"]
-  default: "ty"
-  when: "{{ python }}"
-
 project_features:
   type: str
   multiselect: true
