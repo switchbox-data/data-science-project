@@ -191,3 +191,27 @@ def test_python_data_science_notebooks(tmp_path: Path) -> None:
     # Ensure template condition is not present in final output
     content = (dest / "notebooks/py_example.qmd").read_text()
     assert "{% if cookiecutter.pydata == \"y\" %}" not in content, "Template condition should be resolved"
+
+
+def test_directory_name_in_devcontainer(tmp_path: Path) -> None:
+    dest = tmp_path / "my_custom_dir"
+    res = run_copier(
+        Path(__file__).parents[1],
+        dest,
+        {
+            "author": "Test",
+            "email": "test@example.com", 
+            "author_github_handle": "test",
+            "project_name": "different-name",  # This is different from directory name
+            "project_features": "[python_package]",
+            "use_github": True,
+            "open_source_license": "MIT license",
+            "aws": False,
+        },
+    )
+    assert res.returncode == 0, res.stderr
+    # Check that devcontainer uses actual directory name, not project_name
+    assert_file_contains(dest, ".devcontainer/devcontainer.json", "/workspaces/my_custom_dir/.venv/bin/python")
+    # Should NOT contain the project_name in paths
+    content = (dest / ".devcontainer/devcontainer.json").read_text()
+    assert "/workspaces/different-name/" not in content

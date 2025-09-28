@@ -12,7 +12,6 @@ uvx copier copy --defaults --force --trust \
   --data author="Switchbox" \
   --data email="hello@switch.box" \
   --data author_github_handle="switchbox-data" \
-  --data project_name="example-project" \
   --data project_description="Example" \
   --data project_features="[python_data_science, python_package]" \
   --data use_github=true \

@@ -20,16 +20,6 @@ author_github_handle:
   default: "switchbox-data"
   help: Your GitHub handle (without @)
 
-project_name:
-  type: str
-  default: "example-project"
-  help: Project name (also used for repo name)
-
-project_slug:
-  type: str
-  default: "{{ project_name|lower|replace('-', '_') }}"
-  when: false
-
 project_description:
   type: str
   default: "This is a repository for modern data science projects."
@@ -47,7 +37,7 @@ project_features:
     - python_data_science
     - python_package
     - r_data_science
-  default: [python_data_science, python_package]
+  default: [python_data_science ]
   help: "Select project features (use space to select/deselect, enter to confirm)"
 
 use_github:
@@ -90,6 +80,17 @@ python_package:
 r_data_science:
   type: bool
   default: "{{ 'r_data_science' in project_features }}"
+  when: false
+
+# Directory name computed from destination path  
+project_name:
+  type: str
+  default: "{{ _copier_conf.dst_path.name }}"
+  when: false
+
+project_slug:
+  type: str
+  default: "{{ project_name|lower|replace('-', '_') }}"
   when: false
 
 # Post-generation tasks
