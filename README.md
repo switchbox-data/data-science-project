@@ -35,7 +35,7 @@ To create a new project from this template:
 uv tool install copier # or use pipx
 
 # Create a new project (requires --trust for git initialization)
-copier copy --trust https://github.com/your-org/copier-sb.git path/to/my-new-project
+copier copy --trust https://github.com/switchbox-data/data-science-project.git path/to/my-new-project
 ```
 
 You'll be asked a series of questions to customize your project, including whether you use Github or AWS, and the type of project you want to make:
@@ -61,7 +61,7 @@ For instance, the following prompt generates a python package + data science pro
 ```bash
 copier copy --defaults --force \
   --data project_features='["python_data_science","python_package"]' \
-  https://github.com/your-org/copier-sb.git /path/to/new-project
+  https://github.com/switchbox-data/data-science-project.git /path/to/new-project
 ```
 
 See `copier/copier.yml` for all questions and defaults.
