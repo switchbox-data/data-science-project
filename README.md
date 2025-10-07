@@ -1,11 +1,30 @@
 # Switchbox Copier Template
 
-This is a standalone Copier template for Switchbox projects. It supports:
+This Coper template lets you bootstrap python packages or polyglot data science projects. 
 
-- Python-focused development with modern tooling
-- Optional features: Data science tools, package publishing, GitHub Actions, AWS CLI
-- Python stack options: type checker (mypy/ty), always includes deptry and devcontainers
-- Conditional files and directories via Copier-native templated paths, no post-gen cleanup
+For python packages, it supports:
+- Modern python tooling: uv, ruff, ty, pytest, tox
+- Package building and publishing with hatchling
+- MkDocs documentation with Material theme
+
+For python data science projects, it supports:
+- Pydata libraries: polars, pyarrow, seaborn
+- Quarto notebooks
+- Modern python tooling: uv, ruff, ty
+
+For R data science projects, it supports:
+- Tidyverse libaries: ggplot, dplyr, etc.
+- Quarto notebooks
+- Modern R tooling: pak, air, radian
+- Fast install of compiled R packages via pak and P3M 
+- VS Code extensions for R
+
+All project types include:
+- just for task automation and project management
+- devcontainers for consistent development environments
+- pre-commit hooks for automated code quality checks
+- Optional AWS integration (boto3 for Python, AWS CLI for all)
+- Optional GitHub Actions workflows for CI/CD
 
 ## Using the Template
 
