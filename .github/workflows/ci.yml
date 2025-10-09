@@ -27,3 +27,24 @@ jobs:
           git config --global user.email "41898282githubactions@noreply.github.com"
       - name: Run tests
         run: uv run pytest -q
+
+  deploy-docs:
+    if: github.event_name == 'push'
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: 'true'
+      - name: Install deps
+        run: uv sync --group dev
+      - name: Check if documentation can be built
+        run: uv run mkdocs build -s
+      - name: Deploy documentation
+        run: uv run mkdocs gh-deploy --force
