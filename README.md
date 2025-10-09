@@ -1,5 +1,7 @@
 # Switchbox Copier Template
 
+**Documentation**: <https://switchbox-data.github.io/data-science-project/>
+
 This Coper template lets you bootstrap python packages or polyglot data science projects. 
 
 For python packages, it supports:
