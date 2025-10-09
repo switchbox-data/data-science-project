@@ -14,7 +14,9 @@
         "nefrob.vscode-just-syntax"
       ],
       "settings": {
+        "python.defaultInterpreterPath": "/workspaces/data-science-project/.venv/bin/python",
         "python.testing.pytestArgs": ["tests"],
+        "python.testing.pytestPath": "/workspaces/data-science-project/.venv/bin/pytest",
         "python.testing.unittestEnabled": false,
         "python.testing.pytestEnabled": true
       }
