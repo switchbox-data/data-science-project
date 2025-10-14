@@ -157,7 +157,7 @@ def test_python_mkdocs_only(tmp_path: Path) -> None:
     assert_file_contains(dest, "Justfile", "# 📚 DOCUMENTATION")
     assert_file_contains(dest, "Justfile", "docs:")
     # Check that GitHub workflow contains docs check job (python_package boolean bug)
-    assert_file_contains(dest, ".github/workflows/main.yml", "check-docs:")
+    assert_file_contains(dest, ".github/workflows/python-package-main.yml", "check-docs:")
     # Check that release workflow contains set-version job (python_package boolean bug)
     assert_file_contains(dest, ".github/workflows/on-release-main.yml", "set-version:")
 
