@@ -18,13 +18,16 @@ jobs:
           runCmd: echo "Container started"
 
       - name: run pre-commit hooks
-        shell: &devcontainer-shell /usr/bin/bash -e -c "devcontainer exec --workspace-folder . bash -e - < '{0}'"
-        run: prek -a
+        uses: ./.github/actions/run-in-devcontainer
+        with:
+          runCmd: prek -a
 
       - name: run tests
-        shell: *devcontainer-shell
-        run: uv run python -m pytest tests
+        uses: ./.github/actions/run-in-devcontainer
+        with:
+          runCmd: uv run python -m pytest tests
 
       - name: ty check
-        shell: *devcontainer-shell
-        run: uv run ty check
+        uses: ./.github/actions/run-in-devcontainer
+        with:
+          runCmd: uv run ty check
