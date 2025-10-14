@@ -1,0 +1,30 @@
+name: Main
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+
+jobs:
+  tests-and-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: devcontainers/ci@v0.3
+        with:
+          push: never
+          runCmd: echo "Container started"
+
+      - name: run pre-commit hooks
+        shell: &devcontainer-shell /usr/bin/bash -e -c "devcontainer exec --workspace-folder . bash -e - < '{0}'"
+        run: prek -a
+
+      - name: run tests
+        shell: *devcontainer-shell
+        run: uv run python -m pytest tests
+
+      - name: ty check
+        shell: *devcontainer-shell
+        run: uv run ty check

@@ -20,7 +20,6 @@ jobs:
       - name: Run ruff, ty and pre-commit hooks
         uses: j178/prek-action@v1
 
-
   tests-and-type-check:
     runs-on: ubuntu-latest
     strategy:
@@ -45,7 +44,6 @@ jobs:
       - name: Check typing
         run: uv run ty check
 
-{% if python_package %}
   check-docs:
     runs-on: ubuntu-latest
     steps:
@@ -57,7 +55,7 @@ jobs:
 
       - name: Check if documentation can be built
         run: uv run mkdocs build -s
-        
+
   deploy-docs:
     if: github.event_name == 'push'
     needs: [check-docs]
@@ -71,5 +69,4 @@ jobs:
         uses: ./.github/actions/setup-python-env
 
       - name: Deploy documentation
-        run: uv run mkdocs gh-deploy --force        
-{% endif %}
+        run: uv run mkdocs gh-deploy --force
