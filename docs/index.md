@@ -22,7 +22,7 @@ It supports the following features:
 ### Python packages
 - Modern python tooling: uv, ruff, ty, pytest, tox
 - [hatchling](https://pypi.org/project/hatchling/) for package building
-- [twine][https://twine.readthedocs.io/en/stable/] for package publishing
+- [twine](https://twine.readthedocs.io/en/stable/) for package publishing
 - MkDocs documentation with Material theme
 
 All project types include:
