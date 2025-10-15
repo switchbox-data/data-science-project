@@ -1,11 +1,54 @@
-site_name: Switchbox Copier Template
-site_description: Standalone Copier template for Switchbox projects
-repo_url: https://github.com/switchbox-data/switchbox-copier-template
-theme:
-  name: material
+site_name: Switchbox Data Science Project
+site_description: Modern data science project template
+repo_url: https://github.com/switchbox-data/data-science-project
+site_url: https://switchbox-data.github.io/data-science-project/
+site_author: Switchbox
+repo_name: switchbox-data/data-science-project
+
 nav:
   - Home: index.md
-  - Usage: usage.md
-  - Options: options.md
+  - Tutorial: tutorial.md
+  - Prompt Arguments: promp_arguments.md
+
 plugins:
   - search
+
+extra_css:
+  - stylesheets/extra.css
+
+theme:
+  name: material
+  feature:
+    tabs: true
+  palette:
+    # Note: Using the system theme works with the insiders version
+    # https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#automatic-light-dark-mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: astral-light
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: astral-dark
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  icon:
+    repo: fontawesome/brands/github
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/switchbox-data/data-science-project
+    - icon: fontawesome/brands/bluesky
+      link: https://bsky.app/profile/did:plc:ij55n7zoxyyu2tnpbppx55rq
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
