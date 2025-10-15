@@ -25,7 +25,8 @@ It supports the following features:
 - [twine](https://twine.readthedocs.io/en/stable/) for package publishing
 - MkDocs documentation with Material theme
 
-All project types include:
+### All projects
+
 - [just](https://just.systems/man/en/) for task automation and project management
 - [devcontainers](https://containers.dev/) for consistent development environments in VSCode, Cursor, Positron, and other IDEs
 - [prek](https://prek.j178.dev/) for fast pre-commit hooks that automate code quality checks
