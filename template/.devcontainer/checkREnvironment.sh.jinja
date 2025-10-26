@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# R Environment Check Script
+# This script validates that R, renv, and pak are installed
+# and restores the renv environment from lockfile if present
+
+echo "🔍 Checking R environment..."
+
+# Check if R is installed
+if ! command -v R >/dev/null 2>&1; then
+    echo "❌ Error: R is not installed"
+    echo "Please install R before continuing."
+    exit 1
+fi
+
+echo "✅ R is installed"
+
+# Check if renv is installed
+if ! R --slave -e "library(renv)" >/dev/null 2>&1; then
+    echo "❌ Error: renv package is not installed"
+    echo "Please install renv: R -e \"install.packages('renv')\""
+    exit 1
+fi
+
+echo "✅ renv is installed"
+
+# Check if pak is installed
+if ! R --slave -e "library(pak)" >/dev/null 2>&1; then
+    echo "❌ Error: pak package is not installed"
+    echo "Please install pak: R -e \"install.packages('pak')\""
+    exit 1
+fi
+
+echo "✅ pak is installed"
+
+# Check if renv.lock exists and restore if needed
+if [[ -f "renv.lock" ]]; then
+    echo "📦 Found renv.lock file, restoring environment..."
+    
+    if Rscript -e "renv::restore()"; then
+        echo "✅ R environment restored successfully"
+    else
+        echo "❌ Error: Failed to restore R environment from renv.lock"
+        echo "Please check the renv.lock file and try again"
+        exit 2
+    fi
+else
+    echo "ℹ️  No renv.lock file found, skipping environment restoration"
+fi
+
+echo "🎉 R environment check completed successfully"
