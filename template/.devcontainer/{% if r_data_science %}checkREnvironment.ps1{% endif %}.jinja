@@ -1,0 +1,69 @@
+# R Environment Check Script for Windows
+# This script validates that R, renv, and pak are installed
+# and restores the renv environment from lockfile if present
+
+Write-Host "🔍 Checking R environment..." -ForegroundColor Cyan
+
+# Check if R is installed
+try {
+    $rPath = Get-Command R -ErrorAction Stop
+    Write-Host "✅ R is installed at: $($rPath.Source)" -ForegroundColor Green
+} catch {
+    Write-Host "❌ Error: R is not installed" -ForegroundColor Red
+    Write-Host "Please install R from https://cran.r-project.org/bin/windows/base/" -ForegroundColor Yellow
+    exit 1
+}
+
+# Check if renv is installed
+try {
+    R --slave -e "library(renv)" 2>$null
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "✅ renv is installed" -ForegroundColor Green
+    } else {
+        throw "renv not found"
+    }
+} catch {
+    Write-Host "❌ Error: renv package is not installed" -ForegroundColor Red
+    Write-Host "Please install renv: R -e `"install.packages('renv')`"" -ForegroundColor Yellow
+    exit 1
+}
+
+# Check if pak is installed
+try {
+    R --slave -e "library(pak)" 2>$null
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "✅ pak is installed" -ForegroundColor Green
+    } else {
+        throw "pak not found"
+    }
+} catch {
+    Write-Host "❌ Error: pak package is not installed" -ForegroundColor Red
+    Write-Host "Please install pak: R -e `"install.packages('pak')`"" -ForegroundColor Yellow
+    exit 1
+}
+
+# Check if renv.lock exists and restore if needed
+$scriptPath = $PSScriptRoot
+$projectRoot = Split-Path (Split-Path $scriptPath -Parent) -Parent
+$renvLockPath = Join-Path $projectRoot "renv.lock"
+
+if (Test-Path $renvLockPath) {
+    Write-Host "📦 Found renv.lock file, restoring environment..." -ForegroundColor Cyan
+    
+    try {
+        Rscript -e "setwd('$projectRoot'); renv::restore()"
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "✅ R environment restored successfully" -ForegroundColor Green
+        } else {
+            throw "renv::restore() failed"
+        }
+    } catch {
+        Write-Host "❌ Error: Failed to restore R environment from renv.lock" -ForegroundColor Red
+        Write-Host "Please check the renv.lock file and try again" -ForegroundColor Yellow
+        exit 2
+    }
+} else {
+    Write-Host "ℹ️  No renv.lock file found, skipping environment restoration" -ForegroundColor Blue
+}
+
+Write-Host "🎉 R environment check completed successfully" -ForegroundColor Green
