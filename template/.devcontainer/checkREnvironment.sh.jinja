@@ -35,8 +35,11 @@ fi
 echo "✅ pak is installed"
 
 # Check if renv.lock exists and restore if needed
-if [[ -f "renv.lock" ]]; then
+if [[ -f "../renv.lock" ]]; then
     echo "📦 Found renv.lock file, restoring environment..."
+    
+    # Change to project root directory for renv operations
+    cd ..
     
     if Rscript -e "renv::restore()"; then
         echo "✅ R environment restored successfully"
