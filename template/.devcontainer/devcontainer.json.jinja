@@ -5,59 +5,60 @@
     "ghcr.io/guiyomh/features/just:0.1.0": { "version": "1.42.4" }{% if python  %},
     "ghcr.io/devcontainers/features/python:1": {
       "version": "os-provided",
-      "installTools": "false"
+      "installTools": "false" // No need to install flake8, virtualenv, etc.
     }{% endif %}{% if r_data_science  %},
     "ghcr.io/rocker-org/devcontainer-features/r-apt:0.5.0": {
-      "version": "4.4.3",
+      "version": "4.4.3", // Install R binary via apt
       "installREnv": "true",
-      "installRMarkdown": "true",
+      "installRMarkdown": "true", // Needed by quarto
       "vscodeRSupport": "full",
       "installVscDebugger": "true",
-      "installRadian": "true"
+      "installRadian": "true" // Better R terminal
     }{% endif %}{% if python_data_science  or r_data_science  %},
     "ghcr.io/rocker-org/devcontainer-features/quarto-cli:1": {
       "version": "1.7.33",
-      "installChromium": "true"
+      "installChromium": "true" // Needed by Mermaid diagrams
     },
     "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
-      "packages": "chromium python3-tk"
+      "packages": "chromium python3-tk" // Needed by Mermaid diagrams
     }{% endif %}{% if aws  %},
     "ghcr.io/devcontainers/features/aws-cli:1": {
       "version": "2.27.4"
     }{% endif %}
   },{% if python_data_science  %}
   "containerEnv": {
-    "QUARTO_PYTHON": "/workspaces/{{ project_name }}/.venv/bin/python"
+    "QUARTO_PYTHON": "/workspaces/{{ project_name }}/.venv/bin/python" // Tell Quarto to use uv virtualenv python
   },{% endif %}{% if aws  %}
   "initializeCommand": "mkdir -p ${localEnv:HOME}/.aws",
   "mounts": [
-    "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached"
+    "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached" // Mount host AWS credentials
   ],
   "remoteEnv": {
     "AWS_REGION": "us-west-2"
   },{% endif %}
-  "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
+  "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh", // Runs after features install
   "customizations": {
     "vscode": {
       "extensions": [
-        "tamasfe.even-better-toml",
+        "tombi-toml.tombi", // Fast TOML formatter, linter
         "nefrob.vscode-just-syntax"{% if python  %},
         "ms-python.python",
-        "charliermarsh.ruff",
-        "astral-sh.ty"{% endif %}{% if r_data_science  %},
+        "charliermarsh.ruff", // Fast python formatter, linter
+        "astral-sh.ty" // Fast python type checking{% endif %}{% if r_data_science  %},
         "REditorSupport.r",
         "RDebugger.r-debugger",
-        "Posit.air-vscode",
-        "tombi.tombi"{% endif %}{% if python_data_science  or r_data_science  %},
+        "Posit.air-vscode", // Fast R formatter{% endif %}{% if python_data_science  or r_data_science  %},
         "quarto.quarto"{% endif %}
-      ]{% if python  or r_data_science  %},
+      ]{% if python or r_data_science  %},
       "settings": {
 {% if python  %}        "python.defaultInterpreterPath": "/workspaces/{{ project_name }}/.venv/bin/python",
         "python.testing.pytestArgs": ["tests"],
         "python.testing.pytestPath": "/workspaces/{{ project_name }}/.venv/bin/pytest",
         "python.testing.unittestEnabled": false,
         "python.testing.pytestEnabled": true,
+        // Enables Ruff's built-in, high-performance native server for linting and formatting.
         "ruff.nativeServer": "on",
+        // Sets Ruff as the default formatter for Python files, replacing tools like black.
         "[python]": {
           "editor.defaultFormatter": "charliermarsh.ruff",
           "editor.formatOnSave": true,
@@ -67,14 +68,16 @@
           }
         }{% if r_data_science  %},{% endif %}
 {% endif %}{% if r_data_science  %}        "r.bracketedPaste": true,
-        "r.plot.useHttpgd": true,
-        "r.rterm.linux": "/usr/local/bin/radian",
-        "r.rterm.option": ["--no-save", "--no-restore"],
+        "r.plot.useHttpgd": true, // Needed to show plots in vscode.
+        "r.rterm.linux": "/usr/local/bin/radian", // Use radian as default R terminal in vscode
+        "r.rterm.option": ["--no-save", "--no-restore"], // Fresh session every time.
         "r.workspaceViewer.showObjectSize": true,
+        // Set Air as the default formatter for R files.
         "[r]": {
           "editor.formatOnSave": true,
           "editor.defaultFormatter": "Posit.air-vscode"
         },
+        // Set quarto formatter.
         "[quarto]": {
           "editor.formatOnSave": true,
           "editor.defaultFormatter": "quarto.quarto"
