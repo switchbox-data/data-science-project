@@ -69,14 +69,6 @@ venv.bak/
 packrat/lib*/
 packrat/src/
 
-# renv
-renv/library/
-renv/local/
-renv/cellar/
-renv/lock/
-renv/python/
-renv/staging/
-
 {% endif %}
 
 # IDEs
@@ -99,3 +91,6 @@ Thumbs.db
 {% if python_package  %}site/
 {% endif %}{% if python_data_science  %}.quarto/
 {% endif %}tmp/
+
+_site
+_freeze

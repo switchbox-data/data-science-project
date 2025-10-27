@@ -82,22 +82,18 @@ format: html
 
 Then you write in **Markdown** with optional **code blocks**:
 
-````markdown
+````{markdown eval="false"}
 # My Analysis
 
 Some text here.
 
-{% if python_data_science  and r_data_science  %}```{python}
+{% if python_data_science %}```{python}
 print("Hello from Python!")
 ```
-
-```{r}
+{% endif %}{% if r_data_science %}```{r}
 print("Hello from R!")
-```{% elif python_data_science  %}```{python}
-print("Hello, Quarto!")
-```{% elif r_data_science  %}```{r}
-print("Hello, Quarto!")
-```{% endif %}
+```
+{% endif %}
 
 More text here.
 ````

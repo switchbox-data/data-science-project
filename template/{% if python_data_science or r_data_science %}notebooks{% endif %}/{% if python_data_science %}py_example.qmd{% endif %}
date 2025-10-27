@@ -20,7 +20,7 @@ import numpy as np
 
 # Set up plotting style
 sns.set_theme(style="whitegrid")
-plt.rcParams['figure.figsize'] = (10, 6)
+plt.rcParams["figure.figsize"] = (10, 6)
 ```
 
 ## Create Sample Data
@@ -125,18 +125,19 @@ Let's demonstrate some more advanced Polars functionality:
 ```{python}
 # Window functions and complex aggregations
 advanced_analysis = (
-    data
-    .with_columns([
-        # Add rank within each category
-        pl.col("value").rank().over("category").alias("value_rank"),
-        # Add rolling mean
-        pl.col("score").rolling_mean(window_size=50).alias("score_rolling_mean"),
-        # Add conditional column
-        pl.when(pl.col("value") > pl.col("value").mean())
-        .then(pl.lit("Above Average"))
-        .otherwise(pl.lit("Below Average"))
-        .alias("value_category")
-    ])
+    data.with_columns(
+        [
+            # Add rank within each category
+            pl.col("value").rank().over("category").alias("value_rank"),
+            # Add rolling mean
+            pl.col("score").rolling_mean(window_size=50).alias("score_rolling_mean"),
+            # Add conditional column
+            pl.when(pl.col("value") > pl.col("value").mean())
+            .then(pl.lit("Above Average"))
+            .otherwise(pl.lit("Below Average"))
+            .alias("value_category"),
+        ]
+    )
     .filter(pl.col("score") > 25)  # Filter for scores > 25
     .sort("value", descending=True)
 )

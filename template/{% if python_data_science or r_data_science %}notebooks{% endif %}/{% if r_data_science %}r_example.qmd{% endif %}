@@ -3,7 +3,6 @@ title: "A Quarto Page Layout Example"
 subtitle: "Inspired by Tufte Handout, Using Quarto"
 date: "`r Sys.Date()`"
 format:
-    pdf: default
     html:
       self-contained: true
       grid:
