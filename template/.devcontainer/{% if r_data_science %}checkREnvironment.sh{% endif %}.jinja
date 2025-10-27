@@ -16,38 +16,68 @@ fi
 
 echo "✅ R is installed"
 
-# Check if renv is installed
-if ! R --slave -e "library(renv)" >/dev/null 2>&1; then
-    echo "❌ Error: renv package is not installed"
-    echo "Please install renv: R -e \"install.packages('renv')\""
-    exit 1
+# Fix R library permissions on Linux in devcontainer
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    echo "🔧 Fixing R library permissions..."
+    sudo chown -R vscode:staff /usr/local/lib/R/site-library 2>/dev/null || true
 fi
 
-echo "✅ renv is installed"
-
-# Check if pak is installed
-if ! R --slave -e "library(pak)" >/dev/null 2>&1; then
-    echo "❌ Error: pak package is not installed"
-    echo "Please install pak: R -e \"install.packages('pak')\""
-    exit 1
-fi
-
-echo "✅ pak is installed"
-
-# Check if renv.lock exists and restore if needed
+# Get project root directory
 PROJECT_ROOT="$(dirname "$(dirname "$(realpath "$0")")")"
-if [[ -f "$PROJECT_ROOT/renv.lock" ]]; then
-    echo "📦 Found renv.lock file, restoring environment..."
-    
-    if Rscript -e "setwd('$PROJECT_ROOT'); renv::restore()"; then
-        echo "✅ R environment restored successfully"
+
+# Check if pkgdepends is installed, install if missing
+if ! R --slave -e "library(pkgdepends)" >/dev/null 2>&1; then
+    echo "📦 pkgdepends package is not installed, installing..."
+    if Rscript -e "source('$PROJECT_ROOT/.Rprofile', local = TRUE); install.packages(\"pkgdepends\")"; then
+        echo "✅ pkgdepends installed successfully"
     else
-        echo "❌ Error: Failed to restore R environment from renv.lock"
-        echo "Please check the renv.lock file and try again"
+        echo "❌ Error: Failed to install pkgdepends package"
+        exit 1
+    fi
+else
+    echo "✅ pkgdepends is already installed"
+fi
+
+# Check if pak is installed, install if missing
+if ! R --slave -e "library(pak)" >/dev/null 2>&1; then
+    echo "📦 pak package is not installed, installing..."
+    if Rscript -e "source('$PROJECT_ROOT/.Rprofile', local = TRUE); install.packages(\"pak\", repos = sprintf(\"https://r-lib.github.io/p/pak/stable/%s/%s/%s\", .Platform\$pkgType, R.Version()\$os, R.Version()\$arch))"; then
+        echo "✅ pak installed successfully"
+    else
+        echo "❌ Error: Failed to install pak package"
+        exit 1
+    fi
+else
+    echo "✅ pak is already installed"
+fi
+
+# Create pak lockfile from project dependencies (only if it doesn't exist)
+if [[ ! -f "$PROJECT_ROOT/pkg.lock" ]]; then
+    echo "🔧 Creating pak lockfile from project dependencies..."
+    if Rscript -e "setwd('$PROJECT_ROOT'); pak::lockfile_create()"; then
+        echo "✅ Pak lockfile created successfully"
+    else
+        echo "❌ Error: Failed to create pak lockfile"
         exit 2
     fi
 else
-    echo "ℹ️  No renv.lock file found, skipping environment restoration"
+    echo "ℹ️  Pak lockfile already exists, skipping creation"
+fi
+
+# Install packages from lockfile
+if [[ -f "$PROJECT_ROOT/pkg.lock" ]]; then
+    echo "📦 Installing packages from pak lockfile..."
+    
+    if Rscript -e "setwd('$PROJECT_ROOT'); pak::lockfile_install(lockfile = 'pkg.lock')"; then
+        echo "✅ Packages installed successfully from pak lockfile"
+    else
+        echo "❌ Error: Failed to install packages from pak lockfile"
+        echo "Please check the pkg.lock file and try again"
+        exit 2
+    fi
+else
+    echo "❌ Error: Pak lockfile was not created"
+    exit 2
 fi
 
 echo "🎉 R environment check completed successfully"
