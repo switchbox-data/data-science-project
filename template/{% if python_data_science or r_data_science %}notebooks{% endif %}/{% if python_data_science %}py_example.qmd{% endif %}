@@ -1,6 +1,6 @@
-{% if python_data_science %}---
+---
 title: "Python Data Analysis Example"
-author: "{{cookiecutter.author}}"
+author: "{{ author }}"
 date: today
 format: html
 jupyter: python3
@@ -166,4 +166,3 @@ This notebook demonstrates:
 - Explore more complex Polars operations (joins, pivots, etc.)
 - Try different Seaborn plot types and customizations
 - Integrate with other visualization libraries like Plotly or Altair
-{% endif %}
