@@ -35,7 +35,7 @@ clean:
 new NAME:
     {% raw %}echo "🚀 Creating new Quarto document: {{NAME}}.qmd"
     touch {{NAME}}.qmd
-    echo "---\ntitle: \"{{NAME}}\"\nauthor: \"{% endraw %}{{cookiecutter.author}}{% raw %}\"\ndate: today\nformat: html\n---\n\n# {{NAME}}\n\nYour content here..." > {{NAME}}.qmd{% endraw %}
+    echo "---\ntitle: \"{{NAME}}\"\nauthor: \"{% endraw %}{{ author }}{% raw %}\"\ndate: today\nformat: html\n---\n\n# {{NAME}}\n\nYour content here..." > {{NAME}}.qmd{% endraw %}
 
 # Convert Jupyter notebook to Quarto format
 convert NOTEBOOK:
