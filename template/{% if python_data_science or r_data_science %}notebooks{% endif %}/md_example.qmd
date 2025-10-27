@@ -1,6 +1,6 @@
 ---
 title: "Markdown Example"
-author: "{{cookiecutter.author}}"
+author: "{{ author }}"
 date: today
 format: html
 ---

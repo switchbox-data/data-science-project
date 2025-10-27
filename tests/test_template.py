@@ -188,7 +188,7 @@ def test_python_data_science_notebooks(tmp_path: Path) -> None:
     assert_file_contains(dest, "notebooks/py_example.qmd", "import polars as pl")
     # Ensure template condition is not present in final output
     content = (dest / "notebooks/py_example.qmd").read_text()
-    assert '{% if cookiecutter.pydata == "y" %}' not in content, "Template condition should be resolved"
+    assert "{% if python_data_science %}" not in content, "Template condition should be resolved"
 
 
 def test_project_name_in_devcontainer(tmp_path: Path) -> None:
