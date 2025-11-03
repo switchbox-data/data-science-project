@@ -39,7 +39,7 @@
   "remoteEnv": {
     "AWS_REGION": "us-west-2"
   },{% endif %}
-  "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
+  "postCreateCommand": "bash -lc \"set -e; ./.devcontainer/postCreateCommand.sh; grep -qxF 'alias ls=eza' ~/.bashrc || echo 'alias ls=eza' >> ~/.bashrc; grep -qxF 'alias grep=ag' ~/.bashrc || echo 'alias grep=ag' >> ~/.bashrc; if [ -f ~/.zshrc ]; then grep -qxF 'alias ls=eza' ~/.zshrc || echo 'alias ls=eza' >> ~/.zshrc; grep -qxF 'alias grep=ag' ~/.zshrc || echo 'alias grep=ag' >> ~/.zshrc; fi\"",
   "customizations": {
     "vscode": {
       "extensions": [

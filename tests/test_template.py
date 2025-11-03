@@ -239,6 +239,6 @@ def test_devcontainer_has_modern_shell_feature(tmp_path: Path) -> None:
         ".devcontainer/devcontainer.json",
         "ghcr.io/mikaello/devcontainer-features/modern-shell-utils",
     )
-    # Ensure postCreate sets aliases for ls and grep
-    assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "alias ls='eza'")
-    assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "alias grep='ag'")
+    # Ensure devcontainer postCreate sets aliases for ls and grep (not the script)
+    assert_file_contains(dest, ".devcontainer/devcontainer.json", "alias ls=eza")
+    assert_file_contains(dest, ".devcontainer/devcontainer.json", "alias grep=ag")
