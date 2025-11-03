@@ -13,7 +13,8 @@
       "installVscDebugger": "true",
       "installRadian": "true"
     }{% endif %},
-    "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:2.0.0": {}{% if python_data_science  or r_data_science  %},
+    "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:2.0.0": {},
+    "./.devcontainer/features/switchbox-aliases": {}{% if python_data_science  or r_data_science  %},
     "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
       "packages": [
         "chromium",

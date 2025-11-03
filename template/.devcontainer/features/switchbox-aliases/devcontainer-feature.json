@@ -1,0 +1,11 @@
+{
+  "id": "switchbox-aliases",
+  "version": "1.0.0",
+  "name": "Switchbox Shell Aliases",
+  "description": "Configure aliases to map eza->ls and ag->grep inside devcontainer shells.",
+  "documentationURL": "https://github.com/switchbox-data/data-science-project",
+  "options": {},
+  "installsAfter": [
+    "ghcr.io/mikaello/devcontainer-features/modern-shell-utils"
+  ]
+}

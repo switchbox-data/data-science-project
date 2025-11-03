@@ -239,6 +239,8 @@ def test_devcontainer_has_modern_shell_feature(tmp_path: Path) -> None:
         ".devcontainer/devcontainer.json",
         "ghcr.io/mikaello/devcontainer-features/modern-shell-utils",
     )
-    # Ensure devcontainer postCreate sets aliases for ls and grep (not the script)
-    assert_file_contains(dest, ".devcontainer/devcontainer.json", "alias ls=eza")
-    assert_file_contains(dest, ".devcontainer/devcontainer.json", "alias grep=ag")
+    # Ensure local feature for aliases is referenced
+    assert_file_contains(dest, ".devcontainer/devcontainer.json", "./.devcontainer/features/switchbox-aliases")
+    # Ensure feature files are present
+    assert_exists(dest, ".devcontainer/features/switchbox-aliases/devcontainer-feature.json")
+    assert_exists(dest, ".devcontainer/features/switchbox-aliases/install.sh")
