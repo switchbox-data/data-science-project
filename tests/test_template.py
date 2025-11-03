@@ -213,3 +213,32 @@ def test_project_name_in_devcontainer(tmp_path: Path) -> None:
     # Should NOT contain the directory name in paths
     content = (dest / ".devcontainer/devcontainer.json").read_text()
     assert "/workspaces/my_custom_dir/" not in content
+
+
+def test_devcontainer_has_modern_shell_feature(tmp_path: Path) -> None:
+    dest = tmp_path / "feature"
+    res = run_copier(
+        Path(__file__).parents[1],
+        dest,
+        {
+            "author": "Switchbox",
+            "email": "hello@switch.box",
+            "author_github_handle": "switchbox-data",
+            "project_name": "feat-proj",
+            "project_description": "Feature test",
+            "project_features": "[python_data_science]",
+            "use_github": True,
+            "open_source_license": "MIT license",
+            "aws": False,
+        },
+    )
+    assert res.returncode == 0, res.stderr
+    # Ensure devcontainer includes modern-shell-utils feature
+    assert_file_contains(
+        dest,
+        ".devcontainer/devcontainer.json",
+        "ghcr.io/mikaello/devcontainer-features/modern-shell-utils",
+    )
+    # Ensure postCreate sets aliases for ls and grep
+    assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "alias ls='eza'")
+    assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "alias grep='ag'")
