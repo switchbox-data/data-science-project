@@ -13,15 +13,14 @@
       "installVscDebugger": "true",
       "installRadian": "true"
     }{% endif %},
-    "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:2.0.0": {},
+    "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:2.0.0": {}{% if python_data_science  or r_data_science  %},
     "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
       "packages": [
-        "silversearcher-ag"{% if python_data_science  or r_data_science  %},
         "chromium",
         "python3-tk",
-        "pandoc"{% endif %}
+        "pandoc"
       ]
-    }{% if python_data_science  or r_data_science  %},
+    },
     "ghcr.io/rocker-org/devcontainer-features/quarto-cli:1": {
       "version": "1.7.33",
       "installChromium": "true"
