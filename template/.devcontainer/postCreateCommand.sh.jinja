@@ -1,4 +1,78 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
+# Ensure Oh My Zsh is installed (feature should have installed it; this is a safe fallback)
+export RUNZSH=no
+export CHSH=no
+export KEEP_ZSHRC=yes
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  if command -v curl >/dev/null 2>&1; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  elif command -v wget >/dev/null 2>&1; then
+    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  fi
+fi
+
+# Install key Oh My Zsh plugins
+ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+mkdir -p "$ZSH_CUSTOM_DIR/plugins"
+
+if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-autosuggestions" ]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM_DIR/plugins/zsh-autosuggestions"
+fi
+if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-completions" ]; then
+  git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM_DIR/plugins/zsh-completions"
+fi
+if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting" ]; then
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting"
+fi
+
+# Ensure required plugins are enabled in ~/.zshrc
+required_plugins=(git colored-man-pages colorize history zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
+if [ -f "$HOME/.zshrc" ]; then
+  # Replace plugins=() line if present, otherwise append a new line
+  if grep -qE '^plugins=\(' "$HOME/.zshrc"; then
+    sed -i 's/^plugins=.*/plugins=(git colored-man-pages colorize history zsh-autosuggestions zsh-completions zsh-syntax-highlighting)/' "$HOME/.zshrc"
+  else
+    printf '\nplugins=(git colored-man-pages colorize history zsh-autosuggestions zsh-completions zsh-syntax-highlighting)\n' >> "$HOME/.zshrc"
+  fi
+else
+  printf 'plugins=(git colored-man-pages colorize history zsh-autosuggestions zsh-completions zsh-syntax-highlighting)\n' > "$HOME/.zshrc"
+fi
+
+# Add common ls aliases if not already present
+append_if_missing() {
+  local line="$1"
+  local file="$2"
+  grep -qxF "$line" "$file" || echo "$line" >> "$file"
+}
+
+append_if_missing "alias ll='ls -alF'" "$HOME/.zshrc"
+append_if_missing "alias la='ls -A'" "$HOME/.zshrc"
+append_if_missing "alias l='ls -CF'" "$HOME/.zshrc"
+
+{% if python %}
+# Python developer tooling
+if ! command -v uv >/dev/null 2>&1; then
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+export PATH="$HOME/.local/bin:$PATH"
+uv sync --group dev
+
+# Install pre-commit hooks (prek convenience wrapper)
+if command -v prek >/dev/null 2>&1; then
+  prek install --install-hooks
+else
+  # Fallback to pre-commit if prek is unavailable
+  if command -v pre-commit >/dev/null 2>&1; then
+    pre-commit install --install-hooks
+  fi
+fi
+{% endif %}
+
+echo "postCreateCommand completed."
+
+#!/usr/bin/env bash
 
 # This script is for Linux/macOS and devcontainer usage
 {% if python %}

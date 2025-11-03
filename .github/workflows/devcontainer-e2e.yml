@@ -1,0 +1,48 @@
+name: Devcontainer E2E
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  devcontainer-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: 'true'
+      - name: Generate project via Copier
+        run: |
+          uvx copier copy --defaults --force --trust \
+            --data author="Switchbox" \
+            --data email="hello@switch.box" \
+            --data author_github_handle="switchbox-data" \
+            --data project_name="devcontainer-e2e" \
+            --data project_description="E2E devcontainer test" \
+            --data project_features="[python_package]" \
+            --data use_github=false \
+            --data open_source_license="MIT license" \
+            --data aws=false \
+            . tmp/devcontainer-e2e
+      - name: Build and test devcontainer
+        uses: devcontainers/ci@v0.3
+        with:
+          subFolder: tmp/devcontainer-e2e
+          runCmd: |
+            zsh -lc 'zsh --version'
+            zsh -lc 'test -d $HOME/.oh-my-zsh && echo OK-ohmyzsh'
+            zsh -lc "grep -E 'plugins=.*zsh-autosuggestions' $HOME/.zshrc && echo OK-autosuggestions"
+            zsh -lc "grep -E 'plugins=.*zsh-completions' $HOME/.zshrc && echo OK-completions"
+            zsh -lc "grep -E 'plugins=.*zsh-syntax-highlighting' $HOME/.zshrc && echo OK-syntax"
+            zsh -lc "grep -E 'plugins=.*colored-man-pages' $HOME/.zshrc && echo OK-colored-man-pages"
+            zsh -lc "grep -E 'plugins=.*colorize' $HOME/.zshrc && echo OK-colorize"
+            zsh -lc "grep -E 'plugins=.*history' $HOME/.zshrc && echo OK-history"
+            zsh -lc 'alias ll && alias la && alias l && echo OK-aliases'

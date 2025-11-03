@@ -153,6 +153,18 @@ def test_python_mkdocs_only(tmp_path: Path) -> None:
     assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "curl -LsSf https://astral.sh/uv/install.sh | sh")
     assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "uv sync --group dev")
     assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", "prek install --install-hooks")
+    # Check that oh-my-zsh plugins are configured
+    for p in [
+        "zsh-autosuggestions",
+        "zsh-completions",
+        "zsh-syntax-highlighting",
+        "colored-man-pages",
+        "colorize",
+        "history",
+    ]:
+        assert_file_contains(dest, ".devcontainer/postCreateCommand.sh", p)
+    # Verify common-utils feature installs zsh/oh-my-zsh
+    assert_file_contains(dest, ".devcontainer/devcontainer.json", "ghcr.io/devcontainers/features/common-utils")
     # Check that Justfile contains documentation commands (python_package boolean bug)
     assert_file_contains(dest, "Justfile", "# 📚 DOCUMENTATION")
     assert_file_contains(dest, "Justfile", "docs:")
