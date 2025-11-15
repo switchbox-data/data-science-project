@@ -276,7 +276,7 @@ def test_devcontainer_modern_shell_tools(tmp_path: Path) -> None:
     assert_exists(dest, ".devcontainer/setupShellAliases.sh")
     # Check that the aliases script contains the expected aliases
     assert_file_contains(dest, ".devcontainer/setupShellAliases.sh", "alias ls='eza'")
-    assert_file_contains(dest, ".devcontainer/setupShellAliases.sh", "alias cat='bat'")
+    assert_file_contains(dest, ".devcontainer/setupShellAliases.sh", "alias cat='bat --paging=never'")
     assert_file_contains(dest, ".devcontainer/setupShellAliases.sh", "alias grep='ag'")
     # Ensure fd is NOT aliased
     content = (dest / ".devcontainer/setupShellAliases.sh").read_text()
