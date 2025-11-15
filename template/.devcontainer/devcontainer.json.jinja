@@ -38,9 +38,7 @@
   "mounts": [
     "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached"
   ],
-  "remoteEnv": {
-    "AWS_REGION": "us-west-2"
-  },{% endif %}
+  {% endif %}
   "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
   "customizations": {
     "vscode": {
