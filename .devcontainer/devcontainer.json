@@ -2,6 +2,9 @@
   "name": "Switchbox Copier Template",
   "image": "mcr.microsoft.com/devcontainers/python:1-3.13-bookworm",
   "features": {
+    "ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {
+      "plugins": "git colored-man-pages colorize history zsh-autosuggestions zsh-completions zsh-syntax-highlighting"
+    },
     "ghcr.io/guiyomh/features/just:0.1.0": { "version": "1.42.4" }
   },
   "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
