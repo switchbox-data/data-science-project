@@ -12,7 +12,7 @@ if ! grep -q "# Modern shell tool aliases" "$ZSHRC" 2>/dev/null; then
 
 # Modern shell tool aliases
 alias ls='eza'
-alias cat='bat'
+alias cat='bat --paging=never'
 alias grep='ag'
 EOF
     echo "Shell aliases configured successfully"
