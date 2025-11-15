@@ -48,7 +48,7 @@ On your local machine, navigate to the directory in which you want to create you
 copier copy https://github.com/switchbox-data/switchbox-copier-template <my-project>
 ```
 
-Where `<my-project>` is the name you want to give your project. This will be used as the directory name, and as the name of your repo if you use GitHub. 
+Where `<my-project>` is the name you want to give your project. This will be used as the directory name, and as the name of your repo if you use GitHub.
 
 Follow the prompts to configure your project. Once completed, a new directory containing your project will be created. Then navigate into your newly created project directory and follow the instructions in the `README.md` to complete the setup of your project.
 
