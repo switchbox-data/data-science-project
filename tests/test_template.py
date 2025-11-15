@@ -243,5 +243,41 @@ def test_devcontainer_zsh_feature(tmp_path: Path) -> None:
     assert_file_contains(
         dest,
         ".devcontainer/devcontainer.json",
-        "git colored-man-pages colorize history zsh-autosuggestions zsh-completions zsh-syntax-highlighting",
+        "git colored-man-pages colorize history zsh-autosuggestions fast-syntax-highlighting zsh-autocomplete",
     )
+
+
+def test_devcontainer_modern_shell_tools(tmp_path: Path) -> None:
+    """Test that modern shell tools are configured in devcontainer."""
+    dest = tmp_path / "modern_shell"
+    res = run_copier(
+        Path(__file__).parents[1],
+        dest,
+        {
+            "author": "Test",
+            "email": "test@example.com",
+            "author_github_handle": "test",
+            "project_name": "modern-shell-proj",
+            "project_description": "Test modern shell tools",
+            "project_features": "[python_data_science]",
+            "use_github": True,
+            "open_source_license": "MIT license",
+            "aws": False,
+        },
+    )
+    assert res.returncode == 0, res.stderr
+    # Check that devcontainer includes the modern-shell-tools feature
+    assert_file_contains(
+        dest, ".devcontainer/devcontainer.json", '"ghcr.io/meaningfy-ws/devcontainer-features/modern-shell-tools:1"'
+    )
+    # Check that postCreateCommand is configured to set up aliases
+    assert_file_contains(dest, ".devcontainer/devcontainer.json", "setupShellAliases.sh")
+    # Check that the aliases script exists
+    assert_exists(dest, ".devcontainer/setupShellAliases.sh")
+    # Check that the aliases script contains the expected aliases
+    assert_file_contains(dest, ".devcontainer/setupShellAliases.sh", "alias ls='eza'")
+    assert_file_contains(dest, ".devcontainer/setupShellAliases.sh", "alias cat='bat'")
+    assert_file_contains(dest, ".devcontainer/setupShellAliases.sh", "alias grep='ag'")
+    # Ensure fd is NOT aliased
+    content = (dest / ".devcontainer/setupShellAliases.sh").read_text()
+    assert "alias find=" not in content and "alias fd=" not in content, "fd should not be aliased"
