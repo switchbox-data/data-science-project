@@ -3,7 +3,7 @@
 This page contains a complete tutorial on how to create your project.
 
 ## Step 1: Install copier
-To start, we will need to install `copier`. 
+To start, we will need to install `copier`.
 
 We recommend doing so with `uv`. If you don't have `uv`, installation instructions can be found
 [here](https://docs.astral.sh/uv/#getting-started). For MacOS or Linux;

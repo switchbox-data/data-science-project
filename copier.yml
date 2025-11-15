@@ -76,7 +76,7 @@ r_data_science:
   default: "{{ 'r_data_science' in project_features }}"
   when: false
 
-# Directory name computed from destination path  
+# Directory name computed from destination path
 project_name:
   type: str
   default: "{{ _copier_conf.dst_path.name }}"

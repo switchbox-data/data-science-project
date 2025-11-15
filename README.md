@@ -2,7 +2,7 @@
 
 **Documentation**: <https://switchbox-data.github.io/data-science-project/>
 
-This Coper template lets you bootstrap python packages or polyglot data science projects. 
+This Coper template lets you bootstrap python packages or polyglot data science projects.
 
 For python packages, it supports:
 - Modern python tooling: uv, ruff, ty, pytest, tox
@@ -18,7 +18,7 @@ For R data science projects, it supports:
 - Tidyverse libaries: ggplot, dplyr, etc.
 - Quarto notebooks
 - Modern R tooling: pak, air, radian
-- Fast install of compiled R packages via pak and P3M 
+- Fast install of compiled R packages via pak and P3M
 - VS Code extensions for R
 
 All project types include:
@@ -58,7 +58,7 @@ After making your selections, copier will:
 
 If you want to skip copier's interactive prompts and generate the project directly, you can pass arguments directly.
 
-For instance, the following prompt generates a python package + data science project: 
+For instance, the following prompt generates a python package + data science project:
 
 ```bash
 copier copy --defaults --force \

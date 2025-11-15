@@ -28,8 +28,8 @@ This is a **multiselect** option where you can choose one or more project types:
   - Polars, PyArrow, Seaborn, NumPy for data analysis
   - Quarto notebooks for reproducible research
   - Modern Python tooling (uv, ruff, ty)
-  
-  
+
+
 - `r_data_science`: Sets up an R data science environment with:
   - Tidyverse libraries (ggplot2, dplyr, etc.)
   - Quarto notebooks
@@ -41,7 +41,7 @@ This is a **multiselect** option where you can choose one or more project types:
   - Testing framework (pytest, tox)
   - Documentation (MkDocs with Material theme)
   - Publishing workflow (PyPI)
-  
+
 You can select multiple features! Here are some common combinations:
 
 *Python data science project*:
@@ -107,4 +107,3 @@ The template automatically computes several values based on your choices:
 - Python package names
 - Import statements: `from project_slug import module`
 - Directory structures
-

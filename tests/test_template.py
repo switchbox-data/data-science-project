@@ -12,6 +12,7 @@ def run_copier(template_dir: Path, dest: Path, data: dict[str, str]) -> subproce
         "--defaults",
         "--force",
         "--trust",
+        "--vcs-ref=HEAD",
     ]
     for k, v in data.items():
         args.extend(["--data", f"{k}={v}"])
@@ -213,3 +214,34 @@ def test_project_name_in_devcontainer(tmp_path: Path) -> None:
     # Should NOT contain the directory name in paths
     content = (dest / ".devcontainer/devcontainer.json").read_text()
     assert "/workspaces/my_custom_dir/" not in content
+
+
+def test_devcontainer_zsh_feature(tmp_path: Path) -> None:
+    """Test that Oh My Zsh feature is included in devcontainer configuration."""
+    dest = tmp_path / "zsh_test"
+    res = run_copier(
+        Path(__file__).parents[1],
+        dest,
+        {
+            "author": "Test",
+            "email": "test@example.com",
+            "author_github_handle": "test",
+            "project_name": "zsh-test-proj",
+            "project_description": "Test Zsh configuration",
+            "project_features": "[python_data_science]",
+            "use_github": True,
+            "open_source_license": "MIT license",
+            "aws": False,
+        },
+    )
+    assert res.returncode == 0, res.stderr
+    # Check that devcontainer includes the Zsh feature
+    assert_file_contains(
+        dest, ".devcontainer/devcontainer.json", '"ghcr.io/nils-geistmann/devcontainers-features/zsh:1"'
+    )
+    # Check that the Zsh plugins are configured
+    assert_file_contains(
+        dest,
+        ".devcontainer/devcontainer.json",
+        "git colored-man-pages colorize history zsh-autosuggestions zsh-completions zsh-syntax-highlighting",
+    )
